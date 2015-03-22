@@ -13,12 +13,12 @@
 
       this.load.onLoadComplete.addOnce(this.onLoadComplete, this);
       this.load.setPreloadSprite(this.asset);
-      
+
       this.loadResources();
     },
-      
+
     loadResources: function () {
-      this.load.image('player', 'assets/player.png');
+      this.load.image('map', 'assets/ski2.jpg');
       this.load.bitmapFont('minecraftia', 'assets/minecraftia.png', 'assets/minecraftia.xml');
     },
 

@@ -2,37 +2,47 @@
   'use strict';
 
   function Game() {
-    this.player = null;
+    this.map = null;
   }
 
   Game.prototype = {
-
     create: function () {
       var x = this.game.width / 2
         , y = this.game.height / 2;
+      this.world.setBounds(0, 0, 1920, 1920);
+      this.map = this.add.sprite(x, y, 'map');
+      this.map.anchor.setTo(0.5, 0.5);
+      this.bmd = this.add.bitmapData(800, 600);
+      this.bmd.context.lineWidth = 10;
+      this.bmd.context.moveTo(0, 0);
+      this.bmd.context.lineTo(60, 60);
+      this.bmd.context.lineCap = 'butt';
+      this.bmd.context.stroke();
+      this.map = this.add.sprite(x, y, this.bmd);
 
-      this.player = this.add.sprite(x, y, 'player');
-      this.player.anchor.setTo(0.5, 0.5);
+
       this.input.onDown.add(this.onInputDown, this);
+      this.cursors = this.input.keyboard.createCursorKeys();
     },
 
     update: function () {
-      var x, y, cx, cy, dx, dy, angle, scale;
+      if (this.cursors.up.isDown)
+      {
+          this.camera.y -= 4;
+      }
+      else if (this.cursors.down.isDown)
+      {
+          this.camera.y += 4;
+      }
 
-      x = this.input.position.x;
-      y = this.input.position.y;
-      cx = this.world.centerX;
-      cy = this.world.centerY;
-
-      angle = Math.atan2(y - cy, x - cx) * (180 / Math.PI);
-      this.player.angle = angle;
-
-      dx = x - cx;
-      dy = y - cy;
-      scale = Math.sqrt(dx * dx + dy * dy) / 100;
-
-      this.player.scale.x = scale * 0.6;
-      this.player.scale.y = scale * 0.6;
+      if (this.cursors.left.isDown)
+      {
+          this.camera.x -= 4;
+      }
+      else if (this.cursors.right.isDown)
+      {
+          this.camera.x += 4;
+      }
     },
 
     onInputDown: function () {
